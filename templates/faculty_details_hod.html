@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .top-banner {
+            background-color: #06317B; /* Dark blue */
+            color: white;
+            padding: 20px 650px;
+            text-align: center;
+            position: relative;
+        }
+
+        .top-banner img {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60px;
+            filter: brightness(0) invert(1);
+        }
+
+        .top-banner h1 {
+            font-weight: 700; /* Bold */
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .details-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .dropdown-button, .edit-button {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0C3B86;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px; /* Adjusted border radius for a softer look */
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: inline-block; /* Ensure button takes the width of its content */
+            width: auto; /* Allow button width to adjust based on content */
+            outline: none; /* Remove default focus outline */
+        }
+
+        .dropdown-button:hover, .edit-button:hover {
+            background-color: #08446B;
+        }
+
+        .dropdown-button {
+            padding-left: 30px; /* Add space for left icon */
+            position: relative;
+        }
+
+        .edit-button {
+            background-color: #0C3B86;
+            color: #fff;
+            padding: 12px 40px; /* Increased padding for a larger button */
+        }
+
+        /* Add icon to dropdown button */
+        .dropdown-button::before {
+            content: '\f078'; /* Unicode for caret down icon */
+            font-family: 'Font Awesome 5 Free';
+            position: absolute;
+            left: 10px; /* Adjust icon position */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Add icon to edit button */
+        .edit-button::before {
+            content: '\f044'; /* Unicode for edit icon */
+            font-family: 'Font Awesome 5 Free';
+            margin-right: 10px; /* Add space between icon and text */
+        }
+
+        .dropdown-content {
+            display: none;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content p {
+            color: #555;
+            margin: 8px 0;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 800px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .chart-box {
+            width: calc(50% - 10px);
+            max-width: 400px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+        .home-button img {
+            width: 50px; /* Adjust the width as needed */
+            cursor: pointer;
+        }
+        .home-button {
+            position: absolute;
+            top: 30px;
+            right: 37px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background-color: #06317B;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 75px;
+        }
+        .home-button img {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+    </style>
+
+    <script>
+        function toggleDropdown(dropdownId) {
+            var dropdownContent = document.getElementById(dropdownId);
+            if (dropdownContent.style.display === "none" || dropdownContent.style.display === "") {
+                dropdownContent.style.display = "block";
+            } else {
+                dropdownContent.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="top-banner">
+        <img src="https://seeklogo.com/images/S/ssn-logo-687F0FB88D-seeklogo.com.png" alt="Logo">
+        <h1>Academic Portfolio</h1>
+        <a href="/homepage" class="home-button">
+            <img src="https://www.freeiconspng.com/thumbs/house-png/home-house-silhouette-icon-building--public-domain-pictures--20.png" alt="Home">
+            <p style="margin-left: 2px;" >Home</p>
+        </a>
+    </div>
+
+    <div class="colour"></div>
+    
+    <header></header>
+    
+    <main>
+        <div class="details-container">
+            {% if faculty_details %}
+                <h1>{{ faculty_details[0][0] }}'s Academic Portfolio in {{ session }}</h1>
+                <h3>{{ faculty_details[0][1][4] }}</h3>
+                <p><b>Total Theory Courses workload:</b> {{ faculty_details[0][1] }}</p>
+                <p><b>Total Practical Courses workload:</b> {{ faculty_details[0][2] }}</p>
+                <p><b>Total Projects workload:</b> {{ faculty_details[0][3] }}</p>
+                <p><b>Total Workload: {{ faculty_details[0][1]+faculty_details[0][2]+faculty_details[0][3] }}</b></p>
+            {% else %}
+                <h1>Academic Portfolio</h1>
+                <p>No data available. Please go back and enter a valid session/faculty name.</p>
+            {% endif %}
+        </div>
+        <div class="button-container">
+            {% if faculty_details %}
+                {% if faculty_details[1] %}
+                    <button class="dropdown-button" onclick="toggleDropdown('theoryCourses')">View Theory Courses</button>
+                    <div id="theoryCourses" class="dropdown-content">
+                        {% for course in faculty_details[1] %}
+                            <p><b>{{ course[1] }} - {{ course[2] }}</b> ({{ course[3] }} hour(s))</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+        
+                {% if faculty_details[2] %}
+                    <button class="dropdown-button" onclick="toggleDropdown('practicalCourses')">View Practical Courses</button>
+                    <div id="practicalCourses" class="dropdown-content">
+                        {% for course in faculty_details[2] %}
+                            <p><b>{{ course[1] }} - {{ course[2] }}</b> ({{ course[3] }} hour(s))</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+        
+                {% if faculty_details[3] %}
+                    <button class="dropdown-button" onclick="toggleDropdown('projects')">View Projects</button>
+                    <div id="projects" class="dropdown-content">
+                        {% for project in faculty_details[3] %}
+                            <p><b>{{ project[1] }} - {{ project[2] }}</b></p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+        
+                <a href="{{ url_for('add_courses') }}" class="edit-button">Add courses for the Faculty</a>
+                <a href="{{ url_for('remove_courses') }}" class="edit-button">Remove courses from the Faculty timetable</a>
+            {% endif %}
+        </div>
+        <div class="chart-container">
+            <div class="chart-box">
+                <h3>Theory</h3>
+                <canvas id="theoryChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Practical</h3>
+                <canvas id="practicalChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Projects</h3>
+                <canvas id="projectsChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Total</h3>
+                <canvas id="totalChart"></canvas>
+            </div>
+        </div>
+    </main>    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var options = {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMin: 1,
+                    suggestedMax: 6,
+                    stepSize: 1
+                }
+            }
+        };
+
+        var ctxTheory = document.getElementById('theoryChart').getContext('2d');
+        var theoryChart = new Chart(ctxTheory, {
+            type: 'bar',
+            data: {
+                labels: {{ session_labels | default([]) | tojson }},
+                datasets: [{
+                    label: 'Theory',
+                    data: {{ theory_counts | default([]) | tojson }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: options
+        });
+
+        var ctxPractical = document.getElementById('practicalChart').getContext('2d');
+        var practicalChart = new Chart(ctxPractical, {
+            type: 'bar',
+            data: {
+                labels: {{ session_labels | default([]) | tojson }},
+                datasets: [{
+                    label: 'Practical',
+                    data: {{ practical_counts | default([]) | tojson }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: options
+        });
+
+        var ctxProjects = document.getElementById('projectsChart').getContext('2d');
+        var projectsChart = new Chart(ctxProjects, {
+            type: 'bar',
+            data: {
+                labels: {{ session_labels | default([]) | tojson }},
+                datasets: [{
+                    label: 'Projects',
+                    data: {{ project_counts | default([]) | tojson }},
+                    backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: options
+        });
+
+        var ctxTotal = document.getElementById('totalChart').getContext('2d');
+            var totalChart = new Chart(ctxTotal, {
+                type: 'bar',
+                data: {
+                    labels: {{ session_labels | default([]) | tojson }},
+                    datasets: [{
+                        label: 'Total',
+                        data: {{ total_count | default([]) | tojson }},
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',  // Green with 50% opacity
+                        borderColor: 'rgba(75, 192, 192, 1)',        // Solid green border
+                        borderWidth: 1
+                    }]
+                },
+                options: options  // Pass the options object
+            });
+    </script>
+</body>
+</html>

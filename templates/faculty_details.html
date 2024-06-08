@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-image: url('https://i.imgur.com/kvXhfr9.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+        .underlay {
+            position: fixed;
+            top: 0;
+            left: 265px;
+            width: 1000px;
+            height: 1000px;
+            background-color: white; /* Adjust the opacity as needed */
+            backdrop-filter: blur(5px); /* Adjust the blur amount as needed */
+            z-index: -1; /* Place it behind other content */
+            border-radius: 20px; /* Adjust the radius for rounded edges */
+        }
+        .logo-container{
+            width: 143px;
+            height: 78px; /* Changed height to 78px */
+        }
+        img{
+            width: 100%;
+        }
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 38px;
+            font-weight: bold; 
+            color: #0C3B86;
+            margin-left: -20px;
+            margin-right: 100px;
+        }
+
+        .main {
+            width: 100%;
+            height: 78px; /* Changed height to 78px */
+            display: flex;
+            justify-content: space-between; /* Adjusted to evenly distribute items */
+            align-items: center;
+            padding: 10px; /* Added padding for better spacing */
+            box-sizing: border-box; /* Ensure padding is included in the width */
+        }
+
+        .heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1; /* Allow the heading to grow and take up remaining space */
+        }
+
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1; /* Allow main content to grow and take up remaining space */
+        }
+        .details-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            color: #0C3B86; /* Changed color to dark blue */
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .dropdown-button {
+            background-color: #0C3B86; /* Changed color to dark blue */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-button:hover {
+            background-color: #08446B;
+        }
+
+        .dropdown-content {
+            display: none;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content p {
+            color: #555;
+            margin: 8px 0;
+        }
+    </style>
+
+    <script>
+        function toggleDropdown(dropdownId) {
+            var dropdownContent = document.getElementById(dropdownId);
+            if (dropdownContent.style.display === "none" || dropdownContent.style.display === "") {
+                dropdownContent.style.display = "block";
+            } else {
+                dropdownContent.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="underlay"></div>
+    <div class="main">
+        <div class="logo-container">
+            <img src="../static/images/ssn logo.png" alt="">
+        </div>
+        <div class="heading">
+            <p class="title">
+                Academic Portfolio
+            </p>
+        </div>
+    </div>
+
+    
+    <header>
+        {% if faculty_details %}
+            <h1>Your Academic Portfolio in {{ session }}</h1>
+        {% else %}
+            <h1>Academic Portfolio</h1>
+        {% endif %}
+    </header>
+    
+    <main>
+        {% if faculty_details %}
+            <p><b>Total Theory Courses workload:</b> {{ faculty_details[0][1] }}</p>
+            <p><b>Total Practical Courses workload:</b> {{ faculty_details[0][2] }}</p>
+            <p><b>Total Projects workload:</b> {{ faculty_details[0][3] }}</p>
+            <p><b>Total Workload: {{ faculty_details[0][1]+faculty_details[0][2]+faculty_details[0][3] }}</b></p>
+
+            {% if faculty_details[1] %}
+                <button class="dropdown-button" onclick="toggleDropdown('theoryCourses')">View Theory Courses</button>
+                <div id="theoryCourses" class="dropdown-content">
+                    {% for course in faculty_details[1] %}
+                        <p><b>{{ course[1] }} - {{ course[2] }}</b> ({{ course[3] }} hour(s))</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+    
+            {% if faculty_details[2] %}
+                <button class="dropdown-button" onclick="toggleDropdown('practicalCourses')">View Practical Courses</button>
+                <div id="practicalCourses" class="dropdown-content">
+                    {% for course in faculty_details[2] %}
+                        <p><b>{{ course[1] }} - {{ course[2] }}</b> ({{ course[3] }} hour(s))</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+    
+            {% if faculty_details[3] %}
+                <button class="dropdown-button" onclick="toggleDropdown('projects')">View Projects</button>
+                <div id="projects" class="dropdown-content">
+                    {% for project in faculty_details[3] %}
+                        <p><b>{{ project[1] }} - {{ project[2] }}</b></p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        {% else %}
+            <p>No data available. Please go back and enter a valid session.</p>
+        {% endif %}
+    </main>
+
+
+</body>
+</html>

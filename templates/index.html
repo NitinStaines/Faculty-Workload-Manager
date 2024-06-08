@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://media.licdn.com/dms/image/C511BAQE4hH2p_6ZYiA/company-background_10000/0/1584461336941?e=2147483647&v=beta&t=a5YZyldpxzDc0RJpu9H9bBYyW7--icYPDDVxHspNe14');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glass-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px; /* Added to limit width */
+            margin: 0 auto; /* Center the container horizontally */
+        }
+
+        input[type="email"] {
+            padding: 15px;
+            margin-bottom: 20px;
+            width: calc(100% - 30px); /* Adjusted width */
+            box-sizing: border-box;
+            border: none;
+            border-radius: 30px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+
+        input[type="email"]:hover,
+        input[type="email"]:focus {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        input[type="submit"] {
+            padding: 15px 50px; /* Adjusted padding */
+            background-color: #08446B;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0D6299; /* Darker shade for hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <form action="/verify" method="post">
+            <input type="email" name="email" placeholder="Email" required>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

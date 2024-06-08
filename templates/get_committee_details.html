@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Roles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-image: url('https://i.imgur.com/kvXhfr9.jpeg');
+            background-size: cover;
+            background-position: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container {
+            width: 143px;
+            height: 78px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        
+        img {
+            width: 100%;
+        }
+
+        .title {
+            font-size: 30px;
+            font-weight: bold;
+            color: #0E4AA1;
+            margin: 0;
+        }
+
+        .logo-container img {
+            width: 100%;
+            filter: brightness(0) invert(1);
+        }
+
+        .main {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #0C3B86;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0C3B86;
+            color: white;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #0C3B86;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #08446B;
+        }
+
+        .btn-edit, .btn-delete {
+            font-family: 'Poppins', sans-serif;
+            background-color: #007bff;
+            margin: 0 5px;
+        }
+
+        .btn-edit:hover, .btn-delete:hover {
+            background-color: #0056b3;
+        }
+
+        .underlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: -1;
+            border-radius: 20px;
+        }
+        
+        table {
+            font-family: 'Poppins', sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            border-radius: 0px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        
+        th {
+            background-color: #06317B;
+        }
+        .top-banner {
+            background-color: #06317B;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            top: 0px;
+            width: 100vw;
+        }
+        .top-banner img {
+            position: absolute;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60px;
+            width: 120px;
+            filter: brightness(0) invert(1);
+        }
+        .top-banner h1 {
+            font-weight: 700; /* Bold */
+            color: white;
+        }
+        .home-button img {
+            width: 50px; /* Adjust the width as needed */
+            cursor: pointer;
+        }
+        .home-button {
+            position: absolute;
+            top: 30px;
+            right: 37px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background-color: #06317B;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 75px;
+        }
+        .home-button img {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-banner">
+       
+        <h1>FACULTY ROLES</h1>
+        <a href="/homepage" class="home-button">
+            <img src="https://www.freeiconspng.com/thumbs/house-png/home-house-silhouette-icon-building--public-domain-pictures--20.png" alt="Home">
+            <p style="margin-left: 2px;" >Home</p>
+        </a>
+    </div>
+
+    <br>
+    <div class="underlay"></div>
+    <div class="main">
+        <div class="logo-container">
+            <img src="../static/images/ssn logo.png" alt="">
+        </div>
+    </div>
+    <br>
+    <div class="colour"></div>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% if roles %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Responsibility</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for row in roles %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                        </tr>
+                        {% endfor %}
+                    
+                </tbody>
+            </table>
+        {% endif %}
+    </main>
+</body>
+</html>

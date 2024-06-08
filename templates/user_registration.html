@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Registration Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Custom CSS styles */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Ensure full viewport height */
+    }
+    .form-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        max-width: 400px;
+        width: 100%;
+        /* Center the container */
+        margin-top: 100px;
+    }
+    h2 {
+        text-align: center;
+        color: #0E4AA1;
+        margin-bottom: 20px; /* Add space below the heading */
+    }
+    .label-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .label-container label {
+        margin-bottom: 8px;
+        color: #555;
+    }
+    .input-container {
+        margin-bottom: 20px;
+    }
+    .input-container input, .input-container select {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+    input[type="submit"] {
+        background-color: #0E4AA1;
+        color: #fff;
+        border: none;
+        padding: 15px 20px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        border-radius: 65px;
+        font-family: 'Poppins', sans-serif;
+    }
+    input[type="submit"]:hover {
+        background-color: #0C3B86;
+    }
+    /* Top banner styles */
+    .top-banner {
+        background-color: #06317B;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        z-index: 1; /* Ensure the banner stays above other elements */
+    }
+    .top-banner img {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 60px;
+        filter: brightness(0) invert(1);
+    }
+    .top-banner h1 {
+        font-weight: 700;
+    }
+    .alert {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+    .alert-error {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
+    .home-button img {
+            width: 50px; /* Adjust the width as needed */
+            cursor: pointer;
+        }
+        .home-button {
+            position: absolute;
+            top: 30px;
+            right: 37px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background-color: #06317B;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 75px;
+        }
+        .home-button img {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+</style>
+<script>
+    function validateForm() {
+        var newPassword = document.getElementById("new_password").value;
+        var confirmPassword = document.getElementById("confirm_password").value;
+
+        if (newPassword != confirmPassword) {
+            alert("New password and confirm password do not match.");
+            return false;
+        }
+        return true;
+    }
+</script>
+</head>
+<body>
+    <div class="top-banner">
+        <img src="https://seeklogo.com/images/S/ssn-logo-687F0FB88D-seeklogo.com.png" alt="Logo">
+        <h1>Faculty Registration Form</h1>
+        <a href="/homepage" class="home-button">
+            <img src="https://www.freeiconspng.com/thumbs/house-png/home-house-silhouette-icon-building--public-domain-pictures--20.png" alt="Home">
+            <p style="margin-left: 2px;" >Home</p>
+        </a>
+    </div>
+    
+    <div class="form-container">
+        <h2>Register</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form action="/register" method="post" onsubmit="return validateForm()">
+            <div class="input-container">
+                <label for="faculty_ID">Faculty ID:</label>
+                <input type="text" id="faculty_ID" name="faculty_ID" required>
+                
+                <label for="faculty_name">Faculty Name:</label>
+                <input type="text" id="faculty_name" name="faculty_name" required>
+                
+                <label for="new_password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <label for="entity">User Entity Type:</label>
+                <select id="entity" name="entity" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+                
+                <label for="role_in_dept">Role in Department:</label>
+                <select id="role_in_dept" name="role_in_dept" required>
+                    <option value="hod">HOD</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="non_teaching_staff">Non - Teaching Staff</option>
+                </select>
+                
+                <label for="designation">Designation:</label>
+                <select id="designation" name="designation" required>
+                    <option value="Associate Professor">Associate Professor</option>
+                    <option value="HOD">Head of the Department</option>
+                    <option value="Assistant Professor">Assistant Professor</option>
+                </select>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>    
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Courses from Faculty Portfolio</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa; /* Light gray background color */
+            padding-top: 0px; /* Add padding to the top */
+            padding-bottom: 50px; /* Add padding to the bottom */
+        }
+        .container {
+            background-color: #fff; /* White background for the container */
+            border-radius: 8px; /* Add some border radius */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a light shadow */
+            padding: 30px; /* Add padding inside the container */
+            max-width: 500px; /* Set maximum width for better proportions */
+            margin: 0 auto; /* Center the container */
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 25px; /* Add slightly larger margin between form groups */
+        }
+        /* Add any additional custom styles as needed */
+        label {
+            font-weight: bold; /* Make labels bold */
+        }
+        .btn-danger {
+            width: 100%; /* Make button full width */
+            border-radius: 25px; /* Add rounded corners */
+            font-weight: bold; /* Make button text bold */
+        }
+        .top-banner {
+            background-color: #06317B; /* Dark blue */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px; /* Add margin to separate from the form */
+        }
+
+        .top-banner img {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60px;
+            filter: brightness(0) invert(1);
+        }
+
+        .top-banner h1 {
+            font-weight: 700; /* Bold */
+        }
+        .home-button img {
+            width: 50px; /* Adjust the width as needed */
+            cursor: pointer;
+        }
+        .home-button {
+            position: absolute;
+            top: 30px;
+            right: 37px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background-color: #06317B;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 75px;
+        }
+        .home-button img {
+            position: absolute;
+            left: 0;
+            top: 35%;
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-banner">
+        <img src="https://seeklogo.com/images/S/ssn-logo-687F0FB88D-seeklogo.com.png" alt="Logo">
+        <h1>Remove Courses from Faculty Portfolio</h1>
+        <a href="/homepage" class="home-button">
+            <img src="https://www.freeiconspng.com/thumbs/house-png/home-house-silhouette-icon-building--public-domain-pictures--20.png" alt="Home">
+            <p style="margin-left: 2px;" >Home</p>
+        </a>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <div class="container">
+        <br>
+        <form id="removeCourseForm" method="post" action="/remove_courses">
+            <div class="form-group">
+                <label>Course Type:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="course_type" id="theory" value="Theory" required>
+                    <label class="form-check-label" for="theory">Theory</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="course_type" id="practical" value="Practical" required>
+                    <label class="form-check-label" for="practical">Practical</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="course_type" id="project" value="Project" required>
+                    <label class="form-check-label" for="project">Project</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="sessionDropdown">Choose Session:</label>
+                <select id="sessionDropdown" name="session" required>
+                    <option value="Nov-Dec">Nov-Dec</option>
+                    <option value="March-Apr">March-Apr</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="yearInput">Enter Year:</label>
+                <input type="text" class="form-control" id="yearInput" name="year" required>
+            </div>
+            <div class="form-group">
+                <label for="courseCodeInput">Enter Course Code:</label>
+                <select class="form-control" id="courseCodeInput" name="course_code" required>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" id="removeCourseBtn">Remove Course</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Sample data for courses
+        var theoryCourses = {{ theory | tojson }};
+        var practicalCourses = {{ practical | tojson }};
+        var projectCourses = {{ project | tojson }};
+
+        function populateCourseOptions(courseList) {
+            var courseCodeDropdown = document.getElementById("courseCodeInput");
+            courseCodeDropdown.innerHTML = "";
+            courseList.forEach(function(course) {
+                var option = document.createElement("option");
+                option.text = course.name + " - " + course.code;
+                option.value = course.code;
+                courseCodeDropdown.add(option);
+            });
+        }
+
+        var courseTypeRadios = document.getElementsByName("course_type");
+        courseTypeRadios.forEach(function(radio) {
+            radio.addEventListener("change", function() {
+                var selectedCourseType = document.querySelector('input[name="course_type"]:checked').value;
+                if (selectedCourseType === "Theory") {
+                    populateCourseOptions(theoryCourses);
+                } else if (selectedCourseType === "Practical") {
+                    populateCourseOptions(practicalCourses);
+                } else if (selectedCourseType === "Project") {
+                    populateCourseOptions(projectCourses);
+                }
+            });
+        });
+
+        // Prepopulate the course options based on the initially selected radio button
+        var initialSelectedCourseType = document.querySelector('input[name="course_type"]:checked');
+        if (initialSelectedCourseType) {
+            initialSelectedCourseType.dispatchEvent(new Event('change'));
+        }
+    </script>
+</body>
+</html>

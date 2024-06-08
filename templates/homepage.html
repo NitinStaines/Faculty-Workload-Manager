@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+     body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden; /* Prevent overflow */
+    }
+
+    .banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1; /* Push the image to the background */
+    }
+
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(50%); /* Reduce brightness to make it darker */
+    }
+
+    .content {
+      width: 60%;
+      padding: 20px ;
+      box-sizing: border-box;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.8); /* Better opacity */
+      border-radius: 20px; /* Add some border radius */
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #06317B;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      height: 50px;
+      width: 200px;
+      cursor: pointer;
+    }
+
+    .white-btn {
+      background-color: #ffffff;
+      color: #06317B;
+      border: 2px solid #000000;
+    }
+    .white-btn:hover{
+      background-color: #06317B;
+      color: #ffffff;
+    }
+
+    .black-btn {
+      background-color: #000000;
+      color: #ffffff;
+    }
+    .black-btn:hover{
+      background-color: #ffffff;
+      color: #000000;
+      border: 2px solid #000000;
+    }
+
+    .small-text {
+      font-size: 14px;
+      color: #06317B;
+      margin-bottom: 20px;
+    }
+    .btn-container{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Styles for the logout popup */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      display: none;
+    }
+
+    .popup h2 {
+      margin-top: 0;
+    }
+
+    .popup-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .popup-buttons button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Styles for logout button */
+    .logout-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+    </style>
+</head>
+<body>
+
+    <div class="banner">
+        <img src="../static/images/WhatsApp Image 2024-03-13 at 20.20.17_6fc59da7.jpg">
+    </div>
+    <div class="content">
+            <div class="title">   Welcome! 👋</div>
+            <div class="btn-container">
+              {%if admin_logged %}
+                <form method="GET" action="{{ url_for('academic_portfolios') }}">
+                  <button type="submit" class="btn white-btn">Academic Portfolio accross semesters</button>
+                </form>
+              {% endif %}
+                <form method="GET" action="{{ url_for('index') }}">
+                    <button type="submit"  class="btn white-btn">Academic Portfolio of desired faculty</button>
+                </form>
+    
+                <form method="GET" action="{{ url_for('department_portfolio')}}">
+                    <button type="submit" class="btn white-btn">Deparment Portfolio</button>
+                </form>
+                <form method="GET" action="{{ url_for('verify')}}">
+                  <button type="submit" class="btn white-btn">Change your password</button>
+              </form>
+                
+
+
+            </div>
+            {% if admin_logged %}
+            <div class="small-text"><b>Management Tools</b></div>
+            <div class="btn-container">
+                
+                  <form method="GET" action="{{ url_for('add_new_course') }}">
+                      <button type="submit" class="btn white-btn">Add a New Course</button>
+                  </form>
+                  <form method="GET" action="{{ url_for('view_classes')}}">
+                      <button type="submit" class="btn white-btn">View Class details</button>
+                  </form>
+                  <form method="GET" action="{{ url_for('edit_faculty_details') }}">
+                    <button type="submit" class="btn white-btn">Edit Faculty Details</button>
+                  </form>
+                  <form method="GET" action="{{ url_for('registration') }}">
+                    <button type="submit" class="btn white-btn">Register New User</button>
+                  </form>
+            </div>
+            {% endif %}
+    </div> 
+
+    <!-- Logout button -->
+    <button class="btn white-btn logout-button" onclick="showLogoutPopup()">Logout</button>
+
+    <!-- Logout popup -->
+    <div id="logoutPopup" class="popup">
+      
+      <h2>Do you want to logout?</h2>
+      <div class="popup-buttons">
+        <button onclick="logout()">Yes</button>
+        <button onclick="hideLogoutPopup()">No</button>
+      </div>
+    </div>
+
+    <script>
+      function showLogoutPopup() {
+        document.getElementById('logoutPopup').style.display = 'block';
+      }
+    
+      function hideLogoutPopup() {
+        document.getElementById('logoutPopup').style.display = 'none';
+      }
+    
+      function logout() {
+        // Send a "yes" signal to the backend
+        fetch('/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ choice: 'yes' })
+        })
+        .then(response => {
+          if (response.ok) {
+            // Redirect to the root URL after logout
+            window.location.href = '/';
+          } else {
+            // Handle error response
+            console.error('Logout failed');
+          }
+        })
+        .catch(error => {
+          // Handle network error
+          console.error('Error during logout:', error);
+        });
+      }
+    </script>
+</body>
+</

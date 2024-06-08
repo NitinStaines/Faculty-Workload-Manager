@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Courses</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://i.imgur.com/kvXhfr9.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+        }
+        .chart {
+            width: 100%;
+            height: auto;
+        }
+        .top-banner {
+            background-color: #06317B;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .top-banner img {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60px;
+            filter: brightness(0) invert(1);
+        }
+        .top-banner h1 {
+            font-weight: 700; /* Bold */
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h4, h3, label {
+            font-weight: 600;
+        }
+        .form-check-label {
+            font-weight: 400;
+        }
+        .year-input {
+            width: 100px;
+        }
+        .btn-primary {
+            background-color: #06317B;
+            border: none;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: #052a61;
+        }
+        .input-group-btn .btn {
+            font-weight: 600;
+        }
+        .home-button img {
+            width: 50px; /* Adjust the width as needed */
+            cursor: pointer;
+        }
+        .home-button {
+            position: absolute;
+            top: 30px;
+            right: 37px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background-color: #06317B;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        .home-button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body>
+    <a href="/homepage" class="home-button">
+        <img src="https://www.freeiconspng.com/thumbs/house-png/home-house-silhouette-icon-building--public-domain-pictures--20.png" alt="Home">
+        Home
+    </a>
+      
+    <div class="top-banner">
+        <img src="https://seeklogo.com/images/S/ssn-logo-687F0FB88D-seeklogo.com.png" alt="Logo">
+        <h1>Add Courses</h1>
+    </div>
+    <div class="container mt-5">
+        <h4>Here are the statistics of {{faculty | default("the faculty")}} in the previous semesters:</h4>
+        <div class="mt-5">
+            <div class="row">
+                <div class="col">
+                    <h3>Theory</h3>
+                    <canvas id="theoryChart" class="chart"></canvas>
+                </div>
+                <div class="col">
+                    <h3>Practical</h3>
+                    <canvas id="practicalChart" class="chart"></canvas>
+                </div>
+                <div class="col">
+                    <h3>Projects</h3>
+                    <canvas id="projectsChart" class="chart"></canvas>
+                </div>
+                <div class="col">
+                    <h3>Total</h3>
+                    <canvas id="totalChart" class="chart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add Chart.js library -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        <!-- Write JavaScript for Chart.js -->
+        <script>
+            var options = {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMin: 1,
+                        suggestedMax: 6,
+                        stepSize: 1
+                    }
+                }
+            };
+
+            var ctxTheory = document.getElementById('theoryChart').getContext('2d');
+            var theoryChart = new Chart(ctxTheory, {
+                type: 'bar',
+                data: {
+                    labels: {{ session_labels | default([]) | tojson }},
+                    datasets: [{
+                        label: 'Theory',
+                        data: {{ theory_counts | default([]) | tojson }},
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: options
+            });
+
+            var ctxPractical = document.getElementById('practicalChart').getContext('2d');
+            var practicalChart = new Chart(ctxPractical, {
+                type: 'bar',
+                data: {
+                    labels: {{ session_labels | default([]) | tojson }},
+                    datasets: [{
+                        label: 'Practical',
+                        data: {{ practical_counts | default([]) | tojson }},
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: options
+            });
+
+            var ctxProjects = document.getElementById('projectsChart').getContext('2d');
+            var projectsChart = new Chart(ctxProjects, {
+                type: 'bar',
+                data: {
+                    labels: {{ session_labels | default([]) | tojson }},
+                    datasets: [{
+                        label: 'Projects',
+                        data: {{ project_counts | default([]) | tojson }},
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: options
+            });
+
+            var ctxTotal = document.getElementById('totalChart').getContext('2d');
+            var totalChart = new Chart(ctxTotal, {
+                type: 'bar',
+                data: {
+                    labels: {{ session_labels | default([]) | tojson }},
+                    datasets: [{
+                        label: 'Total',
+                        data: {{ total_count | default([]) | tojson }},
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: options
+            });
+        </script>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <br>
+        <div class="mt-3">
+            <h4>Student to Faculty Ratio: {{ student_to_faculty_ratio | default("N/A") }}</h4>
+        </div>
+        <br>
+        <form method="post">
+            <div class="form-group">
+                <label for="sessionDropdown">Choose Session:</label>
+                <br>
+                <select id="sessionDropdown" name="session" onchange="handleSessionChange()" class="form-control">
+                    <option value="Nov-Dec">November-December</option>
+                    <option value="March-Apr">March-April</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-secondary" id="prevYear">&minus;</button>
+                    </span>
+                    <input type="text" class="form-control year-input" id="year" name="year" required>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-secondary" id="nextYear">&#43;</button>
+                    </span>
+                </div>
+            </div>      
+            <div class="form-group">
+                <label>Course Type:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="course_type" id="theory" value="theory" required>
+                    <label class="form-check-label" for="theory">Theory</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="course_type" id="practical" value="practical" required>
+                    <label class="form-check-label" for="practical">Practical</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="course_type" id="project" value="project" required>
+                    <label class="form-check-label" for="project">Project</label>
+                </div>
+            </div>         
+            <div class="form-group">
+                <label for="course_code">Select Course:</label>
+                <select class="form-control" id="course_code" name="course_code" required>
+                </select>
+            </div>   
+
+            <div class="form-group">
+                <p>Cannot find the course you're looking for? <a href="{{ url_for('add_new_course') }}">Add another new course</a>.</p>
+            </div>
+    
+            <script>
+                var theoryCourses = {{ theory_courses | tojson }};
+                var practicalCourses = {{ practical_courses | tojson }};
+                var combinedCourses = {{ combined_courses | tojson }};
+        
+                function populateCourseOptions(courseList) {
+                    var courseCodeDropdown = document.getElementById("course_code");
+                    courseCodeDropdown.innerHTML = "";
+                    courseList.forEach(function(course) {
+                        var option = document.createElement("option");
+                        option.text = course.name + " - " + course.code;
+                        option.value = course.code;
+                        courseCodeDropdown.add(option);
+                    });
+                }
+        
+                var courseTypeRadios = document.getElementsByName("course_type");
+                courseTypeRadios.forEach(function(radio) {
+                    radio.addEventListener("change", function() {
+                        var selectedCourseType = document.querySelector('input[name="course_type"]:checked').value;
+                        if (selectedCourseType === "theory") {
+                            populateCourseOptions(theoryCourses);
+                        } else if (selectedCourseType === "practical") {
+                            populateCourseOptions(practicalCourses);
+                        } else if (selectedCourseType === "project") {
+                            populateCourseOptions(practicalCourses);
+                        }
+                    });
+                });
+
+                var currentYear = new Date().getFullYear();
+                document.getElementById('year').value = currentYear;
+
+                document.getElementById('nextYear').addEventListener('click', function() {
+                    var yearInput = document.getElementById('year');
+                    yearInput.value = parseInt(yearInput.value) + 1;
+                });
+
+                document.getElementById('prevYear').addEventListener('click', function() {
+                    var yearInput = document.getElementById('year');
+                    yearInput.value = parseInt(yearInput.value) - 1;
+                });
+            </script>  
+            
+            <div id="hoursPerWeekGroup" style="display: none;">
+                <label for="hours_per_week">Hours Per Week:</label>
+                <input type="number" class="form-control" id="hours_per_week" name="hours_per_week" required>
+            </div>
+
+            <div id="projectNameGroup" style="display: none;">
+                <label for="project_name">Project Name:</label>
+                <input type="text" class="form-control" id="project_name" name="project_name" required>
+            </div>
+            
+            <script>
+                function handleCourseTypeChange() {
+                    var projectRadio = document.getElementById("project");
+                    var projectNameGroup = document.getElementById("projectNameGroup");
+                    var projectNameInput = document.getElementById("project_name");
+
+                    var theoryRadio = document.getElementById("theory");
+                    var hoursPerWeekGroup = document.getElementById("hoursPerWeekGroup");
+                    var hoursPerWeekInput = document.getElementById("hours_per_week");
+            
+                    if (projectRadio.checked) {
+                        projectNameGroup.style.display = "block";
+                        projectNameInput.required = true;
+                        hoursPerWeekGroup.style.display = "none";
+                        hoursPerWeekInput.required = false;
+                    } else if (theoryRadio.checked) {
+                        projectNameGroup.style.display = "none";
+                        projectNameInput.required = false;
+                        hoursPerWeekGroup.style.display = "block";
+                        hoursPerWeekInput.required = true;
+                    } else {
+                        projectNameGroup.style.display = "none";
+                        projectNameInput.required = false;
+                        hoursPerWeekGroup.style.display = "none";
+                        hoursPerWeekInput.required = false;
+                    }
+                }
+            
+                var courseTypeRadios = document.getElementsByName("course_type");
+                courseTypeRadios.forEach(function(radio) {
+                    radio.addEventListener("change", handleCourseTypeChange);
+                });
+            
+                handleCourseTypeChange();
+                
+                $( function() {
+                    $( "#year" ).datepicker({
+                        changeMonth: false,
+                        changeYear: true,
+                        showButtonPanel: true,
+                        dateFormat: 'yy',
+                        onClose: function(dateText, inst) { 
+                            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                            $(this).val(year);
+                        }
+                    });
+                });
+            </script>                        
+            <button type="submit" class="btn btn-primary">Add Course</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</body>
+</html>

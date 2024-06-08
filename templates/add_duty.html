@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Duty</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://i.imgur.com/kvXhfr9.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 8000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .logo-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            font-weight: bold;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #0E4AA1;
+            color: white;
+            margin-bottom: 20px;
+            padding: 20px 40px; /* Adjusted padding for a bigger blue banner */
+            border-radius: 10px;
+            position: relative; /* Ensure proper positioning for absolute elements */
+        }
+        .home-button img {
+            width: 30px;
+            height: auto;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #0E4AA1;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background-color: #0E4AA1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #06317B;
+        }
+        .flashes {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+        .flashes li {
+            color: rgb(255, 0, 0);
+            margin-bottom: 5px;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .home-button {
+            position: absolute;
+            top: 50%;
+            left: 1300px;
+            transform: translateY(-50%);
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background-color: #06317B; /* Background color */
+            padding: 10px 20px; /* Padding inside the button */
+            border-radius: 25px; /* Curve the button */
+            cursor: pointer;
+        }
+
+        .home-button img {
+            filter: brightness(0) invert(1);
+            margin-right: 5px; /* Space between image and text */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main">
+            <div class="logo-container">
+                <img src="../static/images/ssn logo 2.png" alt="">
+            </div>
+            <div class="header">
+                <h1 class = "title">Add Duty</h1>
+            </div>
+            <button onclick="window.location.href='homepage.html'" class="home-button">
+                <img src="https://www.freeiconspng.com/thumbs/house-png/home-house-silhouette-icon-building--public-domain-pictures--20.png" alt="Home" style="width: 20px; height: 20px; margin-right: 5px;">
+                Home
+            </button>
+
+        </div>
+        <div class="colour"></div>
+
+    <main>
+        <div class="container mt-5">
+            <h2>Add Duty</h2>
+            <div class="mt-5">
+                <form method="post" action="/add_duty">
+                    <div class="form-group">
+                        <label class="details" for="facultyDropdown">Faculty:</label>
+                        <select id="facultyDropdown" name="faculty" class="form-control" required>
+                            <option value="">Select Faculty</option>
+                            {% for faculty in faculties %}
+                                <option value="{{ faculty[0] }}">{{ faculty[0] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="committee">Responsibility:</label>
+                        <input type="text" class="form-control" list="duties" id="Responsibility" name="Responsibility" required>
+                        <datalist id="duties">
+                            {% if duties %}
+                                {% for duty in duties %}
+                                <option value="{{ duty[0] }}">{{ duty[0] }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </datalist>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Duty</button>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <ul class="flashes">
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

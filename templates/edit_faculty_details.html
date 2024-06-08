@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Faculty Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: 400px;
+            text-align: center;
+        }
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: 400px;
+            text-align: center;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa; /* Light grayish blue background */
+        }
+        .top-banner {
+            background-color: #06317B; /* Dark blue */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .top-banner img {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60px;
+            filter: brightness(0) invert(1);
+        }
+
+        .top-banner h1 {
+            font-weight: 700; /* Bold */
+        }
+        .instructions {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+        .home-button img {
+            width: 50px; /* Adjust the width as needed */
+            cursor: pointer;
+        }
+        .home-button {
+            position: absolute;
+            top: 30px;
+            right: 37px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background-color: #06317B;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 75px;
+        }
+        .home-button img {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+        .container {
+            margin-top: 50px;
+            display: flex;
+            
+            align-items: center;
+            flex-direction: column;
+            color:#0E4AA1;
+            margin-bottom: 20px;
+            padding: 20px 40px; /* Adjusted padding for a bigger blue banner */
+            border-radius: 10px;
+            
+        }
+        .main{
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px 30px;
+            font-size: 20px;
+        }
+        select,
+        input[type="submit"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+        }
+        input[type="submit"]{
+            background-color: #06317B;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover{
+            background-color: #063d9d;
+
+        }
+    
+
+    
+
+    </style>
+</head>
+<body>
+    <div class="top-banner">
+        <img src="https://seeklogo.com/images/S/ssn-logo-687F0FB88D-seeklogo.com.png" alt="Logo">
+        <h1>Remove Duty</h1>
+        <a href="/homepage" class="home-button">
+            <img src="https://www.freeiconspng.com/thumbs/house-png/home-house-silhouette-icon-building--public-domain-pictures--20.png" alt="Home">
+            <p style="margin-left: 2px;" >Home</p>
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <div class="main">
+            <h2>Edit Faculty Details</h2>
+        <form action="/edit_faculty_details" method="POST">
+            <label for="facultyDropdown">Faculty:</label>
+            <select id="facultyDropdown" name="faculty" required>
+                <option value="">Select Faculty</option>
+                {% for faculty in faculties %}
+                <option value="{{ faculty[0] }}">{{ faculty[0] }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="entity">Select Entity:</label>
+            <select id="entity" name="entity">
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+                <option value="HOD">HOD</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <label for="status">Select Status:</label>
+            <select id="status" name="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <label for="designation">Select Designation:</label>
+            <select id="designation" name="designation">
+                <option value="Assistant Professor">Assistant Professor</option>
+                <option value="Associate Professor">Associate Professor</option>
+                <option value="HOD">HOD</option>
+                <option value="Technician">Technician</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <input type="submit" value="Submit">
+        </form>
+
+
+        </div>
+            
+        
+    </div>
+    
+    
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+    

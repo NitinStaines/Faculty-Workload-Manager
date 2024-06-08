@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty and Role Selection</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa; /* Light grayish blue background */
+        }
+        .top-banner {
+            background-color: #06317B; /* Dark blue */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .top-banner img {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60px;
+            filter: brightness(0) invert(1);
+        }
+
+        .top-banner h1 {
+            font-weight: 700; /* Bold */
+        }
+        .instructions {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+        .home-button img {
+            width: 50px; /* Adjust the width as needed */
+            cursor: pointer;
+        }
+        .home-button {
+            position: absolute;
+            top: 30px;
+            right: 37px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            background-color: #06317B;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 75px;
+        }
+        .home-button img {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+        .container {
+            margin-top: 50px;
+            display: flex;
+            
+            align-items: center;
+            flex-direction: column;
+            color:#0E4AA1;
+            margin-bottom: 20px;
+            padding: 20px 40px; /* Adjusted padding for a bigger blue banner */
+            border-radius: 10px;
+            
+        }
+        .main{
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px 30px;
+            font-size: 20px;
+        }
+        select,
+        input[type="submit"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+        }
+        input[type="submit"]{
+            background-color: #06317B;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover{
+            background-color: #063d9d;
+
+        }
+
+    </style>
+</head>
+<body>
+    <div class="top-banner">
+        <img src="https://seeklogo.com/images/S/ssn-logo-687F0FB88D-seeklogo.com.png" alt="Logo">
+        <h1>Remove Duty</h1>
+        <a href="/homepage" class="home-button">
+            <img src="https://www.freeiconspng.com/thumbs/house-png/home-house-silhouette-icon-building--public-domain-pictures--20.png" alt="Home">
+            <p style="margin-left: 2px;" >Home</p>
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="main">
+            <h2>Select Faculty and Role</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/remove_duty" method="post">
+        <div class="detail-container">
+            <label class="details" for="facultyDropdown">Faculty:</label>
+            <br>
+            <select id="facultyDropdown" name="faculty" required>
+                <option value="">Select Faculty</option>
+                {% for faculty in faculties %}
+                    <option value="{{ faculty[0] }}">{{ faculty[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="detail-container">
+            <label class="details" for="roleDropdown">Responsibility:</label>
+            <br>
+            <select id="roleDropdown" name="role" required>
+                <option value="">Select Responsibility</option>
+                {% for role in roles %}
+                    <option value="{{ role[0] }}">{{ role[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+
+
+        </div>
+        
+    </div>
+    
+</body>
+</html>
