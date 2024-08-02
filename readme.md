@@ -1,5 +1,5 @@
 Faculty workload manager enables to track the workload and various classes handled by the faculties in their workplace across various sessions.
-This project was aimed to digitalize the workload data of faculties from my college.
+This project was aimed to digitize the workload data of faculties from my college.
 
 To run this file,
 
