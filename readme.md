@@ -1,8 +1,32 @@
-Faculty workload manager enables to track the workload and various classes handled by the faculties in their workplace across various sessions.
-This project was aimed to digitize the workload data of faculties from my college.
+# 🏫 Faculty Workload Management System  
 
-To run this file,
+## 📌 Overview  
+Managing faculty workload in educational institutions is often complex and time-consuming. This **Faculty Workload Management System** simplifies task allocation by providing **a centralized platform** where **HODs can assign, track, and manage faculty workloads**, ensuring **fair and transparent** distribution of academic responsibilities.  
 
-1. Run the DDL commands present in the script_file.sql and then populate the tables with your data.
-2. Change the database connections in the first few lines in the code.py file
-3. Run the code.py and open the website with the flask local host connection.
+## 🚀 Features  
+- **Workload Allocation**: HODs can assign and manage faculty workloads.  
+- **Role-Based Access**:  
+  - HODs: Manage both academic and department portfolios.  
+  - Administrators: Edit academic portfolios.  
+  - Faculty Members: View workload details.  
+- **Workload Visualization**: Graphical representations of faculty workload for better insights.  
+- **Timetable Management**: Faculty can view assigned hours and tasks.  
+- **Secure User Authentication**: Ensures controlled access based on user roles.  
+- **Database Management**: Uses **MySQL** for secure and efficient data storage.  
+
+## 🛠️ Tech Stack  
+- **Backend**: Flask, Python, MySQL  
+- **Frontend**: HTML, CSS  
+- **Project Management**: Jira (task tracking), GitHub (version control)  
+
+## 🎯 Challenges & Considerations  
+- Ensuring **equitable workload distribution** to avoid faculty burnout.  
+- Maintaining **data security** for workload and faculty records.  
+- Designing an **intuitive UI** for easy workload tracking.  
+
+
+## 👥 Contributors  
+- **Kezia Stephano**  
+- **Kishore P**  
+- **Mathesh D**  
+- **Nitin Staines**  
